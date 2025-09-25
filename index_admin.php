@@ -84,28 +84,42 @@ $jumlah_siswa = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM siswa")->f
             margin: 0;
         }
 
-        /* Navbar */
         .navbar {
             background-color: #003366;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            /* ✅ Distribusi ruang yang lebih baik */
             padding: 0 20px;
             height: 60px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
-            padding-left: 100px;
+            flex-wrap: nowrap;
+            /* ✅ Mencegah pembungkusan */
+        }
+
+        /* Container untuk menu navigasi */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            /* ✅ Jarak yang konsisten antar menu */
+            flex: 1;
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 6px;
             transition: all 0.3s ease;
-            font-size: 0.95rem;
+            font-size: 1 rem;
+            /* ✅ Ukuran font lebih kecil */
             font-weight: 500;
+            white-space: nowrap;
+            /* ✅ Mencegah teks terpotong */
         }
 
         .navbar a:hover {
@@ -184,7 +198,7 @@ $jumlah_siswa = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM siswa")->f
             gap: 15px;
             color: white;
             font-weight: 600;
-            margin-left: 20px;
+            margin-left: 300px;
         }
 
         .welcome a {
@@ -317,6 +331,7 @@ $jumlah_siswa = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM siswa")->f
             margin-top: 40px;
         }
 
+
         @media (max-width: 768px) {
             .navbar {
                 padding-left: 20px;
@@ -373,9 +388,11 @@ $jumlah_siswa = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM siswa")->f
     <!-- Navbar -->
     <div class="navbar">
         <a href="index_admin.php"><i class="bi bi-house-fill"></i> Home</a>
-        <a href="pengaduan_admin.php"><i class="bi bi-exclamation-diamond"></i> Pengaduan</a>
+        <a href="profil.php"><i class="bi bi-person-circle"></i> Profil</a>
+        <a href="register_petugas.php"><i class="bi bi-person-circle"></i> Registrasi</a>
+        <!-- <a href="pengaduan_admin.php"><i class="bi bi-exclamation-diamond"></i> Pengaduan</a> -->
         <a href="tanggapan.php"><i class="bi bi-clock-history"></i> Tanggapan</a>
-        <a href="isi_laporan.php"><i class="bi bi-file-earmark-text"></i> Isi Laporan</a>
+        <a href="isi_laporan.php"><i class="bi bi-file-earmark-text"></i> Laporan</a>
 
         <!-- Dropdown Info Data -->
         <div class="dropdown">
@@ -384,14 +401,10 @@ $jumlah_siswa = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM siswa")->f
                 <a href="data_siswa.php"><i class="bi bi-people-fill"></i> Info Data Siswa</a>
                 <a href="data_admin.php"><i class="bi bi-person-vcard"></i> Info Data Admin</a>
                 <a href="data_operator.php"><i class="bi bi-person-badge"></i> Info Data Operator</a>
+                <a href="info_pengaduan.php"><i class="bi bi-exclamation-diamond"></i> Info Pengaduan</a>
+                <a href="tanggapan.php"><i class="bi bi-clock-history"></i> Info Tanggapan</a>
             </div>
         </div>
-
-        <!-- Search -->
-        <form>
-            <input type="text" placeholder="Cari sesuatu..." aria-label="Search">
-            <button type="submit">Cari</button>
-        </form>
 
         <!-- Welcome -->
         <div class="welcome">

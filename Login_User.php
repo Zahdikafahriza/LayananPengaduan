@@ -186,7 +186,8 @@ if ($_POST) {
             <button type="submit" class="btn-submit">Login</button>
         </form>
         <div class="footer">
-            Belum punya akun? <a href="register_siswa.php">Daftar disini</a>
+            Belum punya akun? <a href="register_siswa.php">Daftar disini</a> <br><br>
+            <a href="dashboard.php"><i class="bi bi-arrow-left-circle"></i> Kembali ke dashboard</a>
         </div>
     </div>
 </body>

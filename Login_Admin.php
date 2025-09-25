@@ -205,10 +205,13 @@ if ($_POST) {
 
             <button type="submit" class="btn-submit">Login</button>
         </form>
-
-        <div class="footer">
+        <br>
+        <center>
+            <a href="dashboard.php"><i class="bi bi-arrow-left-circle"></i> Kembali ke dashboard</a>
+        </center>
+        <!-- <div class="footer">
             Belum punya akun? <a href="register_petugas.php">Daftar disini</a>
-        </div>
+        </div> -->
     </div>
 
     <!-- AJAX untuk tampilkan level saat ketik username -->

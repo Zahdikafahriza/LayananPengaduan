@@ -1,13 +1,14 @@
 <?php
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'siswa') {
-    header("Location: Login_User.php");
-    exit();
-}
+// if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'siswa') {
+//     header("Location: Login_User.php");
+//     exit();
+// }
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -298,6 +299,7 @@ if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'siswa') {
 
     <div class="navbar">
         <a href="index_siswa.php"><i class="bi bi-house-fill"></i> Home</a>
+        <a href="profil.php"><i class="bi bi-person-circle"></i> Profil</a>
         <a href="gallery.php"><i class="bi bi-image"></i> Gallery</a>
         <a href="pengaduan.php"><i class="bi bi-exclamation-diamond"></i> Pengaduan</a>
         <a href="history.php"><i class="bi bi-clock-history"></i> History</a>
@@ -310,7 +312,7 @@ if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'siswa') {
 
         <div class="welcome">
             <span>Selamat Datang, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></span>
-            <a href="Login_User.php">Logout</a>
+            <a href="dashboard.php">Logout</a>
         </div>
     </div>
 

@@ -271,7 +271,10 @@ if (isset($_POST['registrasi'])) {
 
         <div class="footer">
             Sudah punya akun? <a href="Login_Admin.php">Login disini</a>
+            <br><br>
+            <a href="index_admin.php"><i class="bi bi-arrow-left-circle"></i> Kembali ke Index Admin</a>
         </div>
+
     </div>
 </body>
 

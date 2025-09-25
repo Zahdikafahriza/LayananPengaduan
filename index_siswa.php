@@ -3,7 +3,7 @@
 session_start();
 
 // Cek: apakah sudah login DAN apakah levelnya 'siswa'
-if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'siswa') {
+if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'siswa') { 
     header("Location: Login_User.php");
     exit();
 }
@@ -375,6 +375,7 @@ if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'siswa') {
     <!-- Navbar -->
     <div class="navbar">
         <a href="index_siswa.php"><i class="bi bi-house-fill"></i> Home</a>
+        <a href="profil.php"><i class="bi bi-person-circle"></i> Profil</a>
         <a href="gallery.php"><i class="bi bi-image"></i> Gallery</a>
         <a href="pengaduan.php"><i class="bi bi-exclamation-diamond"></i> Pengaduan</a>
         <a href="history.php"><i class="bi bi-clock-history"></i> History</a>
@@ -387,7 +388,7 @@ if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'siswa') {
 
         <div class="welcome">
             <span>Selamat Datang, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></span>
-            <a href="Login_User.php">Logout</a>
+            <a href="logout.php">Logout</a>
         </div>
     </div>
 

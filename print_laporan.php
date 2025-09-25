@@ -274,6 +274,13 @@ $result->data_seek(0); // Reset pointer
             margin: 0 10px;
         }
 
+        .signature-section {
+            margin-top: 50px;
+            text-align: right;
+            font-size: 14px;
+        }
+
+
         /* Responsif */
         @media (max-width: 768px) {
             .filter-row {
@@ -339,6 +346,10 @@ $result->data_seek(0); // Reset pointer
 
             .status {
                 font-size: 0.7rem;
+            }
+
+            .signature-section {
+                page-break-inside: avoid;
             }
         }
     </style>
@@ -449,6 +460,16 @@ $result->data_seek(0); // Reset pointer
             </table>
         </div>
 
+        <!-- Tanda Tangan -->
+        <div class="signature-section" style="margin-top: 60px; text-align: right;">
+            <p>Bekasi, <?= date('d F Y') ?></p>
+            <p><?php echo ucfirst($_SESSION['level']); ?></p>
+            <br><br><br> <!-- Jarak buat tanda tangan -->
+            <p><strong><?= $_SESSION['username'] ?? '________________' ?></strong></p>
+            
+        </div>
+
+
         <!-- Tombol Aksi -->
         <div class="action-buttons no-print">
             <button class="btn btn-print" onclick="window.print()">
@@ -459,6 +480,8 @@ $result->data_seek(0); // Reset pointer
                 <i class="bi bi-arrow-left"></i> Kembali
             </a>
         </div>
+
+
 
     </div>
 

@@ -1,13 +1,26 @@
 <?php
 session_start();
+include 'koneksi.php';
+
 if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'admin') {
     header("Location: Login_Admin.php");
     exit();
 }
 
-include 'koneksi.php';
+$home_link = (isset($_SESSION['level']) && $_SESSION['level'] === 'admin') ? 'index_admin.php' : 'index_operator.php';
 
-$query = "SELECT * FROM petugas WHERE level = 'admin' ORDER BY username";
+$search = isset($_GET['search']) ? mysqli_real_escape_string($koneksi, $_GET['search']) : '';
+if ($search) {
+    $search = mysqli_real_escape_string($koneksi, $search); // penting: hindari SQL injection
+    $where_clause = "AND (nama_petugas LIKE '%$search%' 
+                        OR username LIKE '%$search%' 
+                        OR nama_petugas LIKE '%$search%'
+                        OR id_petugas LIKE '%$search%')";
+} else {
+    $where_clause = '';
+}
+
+$query = "SELECT * FROM petugas WHERE level = 'admin' $where_clause ORDER BY username,nama_petugas,id_petugas";
 $result = mysqli_query($koneksi, $query);
 ?>
 <!DOCTYPE html>
@@ -20,6 +33,7 @@ $result = mysqli_query($koneksi, $query);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
     <style>
+        /* (Styles tetap sama seperti sebelumnya) */
         * {
             margin: 0;
             padding: 0;
@@ -197,7 +211,12 @@ $result = mysqli_query($koneksi, $query);
             background: #005a9e;
         }
 
-        /* Perbaikan cetak */
+        .signature-section {
+            margin-top: 50px;
+            text-align: right;
+            font-size: 14px;
+        }
+
         @media print {
             body * {
                 visibility: hidden;
@@ -234,7 +253,10 @@ $result = mysqli_query($koneksi, $query);
                 color: white !important;
             }
 
-            /* Sembunyikan elemen UI yang tidak perlu */
+            .signature-section {
+                page-break-inside: avoid;
+            }
+
             .navbar,
             header,
             .main-content>div>div:not(#print-area),
@@ -250,7 +272,6 @@ $result = mysqli_query($koneksi, $query);
 </head>
 
 <body>
-    <!-- Header -->
     <header>
         <div class="header-title">
             <img src="Image/Logo SMK6.png" alt="Logo SMK 6">
@@ -260,52 +281,45 @@ $result = mysqli_query($koneksi, $query);
             </div>
         </div>
     </header>
-
-    <!-- Navbar -->
     <div class="navbar">
-        <a href="index_admin.php"><i class="bi bi-house-fill"></i> Home</a>
-        <a href="pengaduan.php"><i class="bi bi-exclamation-diamond"></i> Pengaduan</a>
+        <a href="<?php echo $home_link; ?>"><i class="bi bi-house-fill"></i> Home</a>
+        <a href="profil.php"><i class="bi bi-person-circle"></i> Profil</a>
         <a href="tanggapan.php"><i class="bi bi-clock-history"></i> Tanggapan</a>
-        <a href="isi_laporan.php"><i class="bi bi-file-earmark-text"></i> Isi Laporan</a>
-
+        <a href="isi_laporan.php"><i class="bi bi-file-earmark-text"></i> Laporan</a>
         <div class="dropdown">
             <a href="javascript:void(0)"><i class="bi bi-info-circle"></i> Info Data ▼</a>
             <div class="dropdown-content">
                 <a href="data_siswa.php"><i class="bi bi-people-fill"></i> Info Data Siswa</a>
                 <a href="data_admin.php"><i class="bi bi-person-vcard"></i> Info Data Admin</a>
                 <a href="data_operator.php"><i class="bi bi-person-badge"></i> Info Data Operator</a>
+                <a href="info_pengaduan.php"><i class="bi bi-exclamation-diamond"></i> Info Pengaduan</a>
+                <a href="tanggapan.php"><i class="bi bi-clock-history"></i> Info Tanggapan</a>
             </div>
         </div>
-
-        <form style="margin-left:auto; margin-right:20px;">
-            <input type="text" placeholder="Cari..." style="padding:8px; border-radius:20px; width:200px; border:none; outline:none;">
-            <button type="submit" style="background:#005a9e; color:white; border:none; padding:8px 12px; border-radius:20px; cursor:pointer;">Cari</button>
-        </form>
-
         <div class="welcome">
             <span>Selamat Datang, <strong><?= htmlspecialchars($_SESSION['username']) ?></strong> (Admin)</span>
             <a href="logout.php">Logout</a>
         </div>
     </div>
-
-    <!-- Main Content -->
     <div class="main-content">
         <div class="container">
             <h2><i class="bi bi-person-vcard"></i> 👤 Data Admin</h2>
-
-            <!-- Tombol Cetak -->
             <div style="text-align: right; margin-bottom: 15px;">
+                <form method="GET" action="" style="display: inline-block; margin-right: 10px;">
+                    <input type="text" name="search" placeholder="Cari data admin..." value="<?php echo htmlspecialchars($search); ?>" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+                    <button type="submit" class="print-btn" style="background: #005a9e;">🔍 Cari</button>
+                    <?php if ($search): ?>
+                        <a href="data_admin.php" class="print-btn" style="background: #6c757d; text-decoration: none;">🗙 Reset</a>
+                    <?php endif; ?>
+                </form>
                 <button onclick="window.print()" class="print-btn">🖨️ Cetak Data</button>
             </div>
-
-            <!-- Area yang akan dicetak -->
             <div id="print-area">
                 <div style="text-align: center; margin-bottom: 15px;">
                     <img src="Image/Logo SMK6.png" alt="Logo SMK 6" width="80">
                     <h2>Data Admin - Pengaduan Digital</h2>
                     <hr>
                 </div>
-
                 <div class="table-container">
                     <table>
                         <thead>
@@ -322,13 +336,10 @@ $result = mysqli_query($koneksi, $query);
                         <tbody>
                             <?php
                             $no = 1;
-                            $query = "SELECT * FROM petugas WHERE level = 'admin'";
-                            $result = mysqli_query($koneksi, $query);
-
                             if ($result && mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>" . $no++ . "</td>"; // nomor urut
+                                    echo "<td>" . $no++ . "</td>";
                                     echo "<td>" . $row['id_petugas'] . "</td>";
                                     echo "<td>" . $row['nama_petugas'] . "</td>";
                                     echo "<td>" . $row['username'] . "</td>";
@@ -344,11 +355,15 @@ $result = mysqli_query($koneksi, $query);
                         </tbody>
                     </table>
                 </div>
+                <div class="signature-section" style="margin-top: 60px; text-align: right;">
+                    <p>Bekasi, <?= date('d F Y') ?></p>
+                    <p><?php echo ucfirst($_SESSION['level']); ?></p>
+                    <br><br><br> <!-- Jarak buat tanda tangan -->
+                    <p><strong><?= $_SESSION['username'] ?? '________________' ?></strong></p>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Layanan Pengaduan Digital | SMK NEGERI 6 KOTA BEKASI</p>
     </footer>

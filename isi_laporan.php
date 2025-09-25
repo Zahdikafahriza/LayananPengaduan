@@ -440,19 +440,24 @@ $result = $stmt->get_result();
         <?php else: ?>
             <a href="index_operator.php"><i class="bi bi-house-fill"></i> Home</a>
         <?php endif; ?>
-        <a href="pengaduan_admin.php"><i class="bi bi-exclamation-diamond"></i> Pengaduan</a>
-        <a href="tanggapan.php"><i class="bi bi-clock-history"></i> Tanggapan</a>
-        <a href="isi_laporan.php"><i class="bi bi-file-earmark-text"></i> Isi Laporan</a>
-        <?php if ($_SESSION['level'] === 'admin'): ?>
-            <div class="dropdown">
-                <a href="javascript:void(0)"><i class="bi bi-info-circle"></i> Info Data ▼</a>
-                <div class="dropdown-content">
-                    <a href="data_siswa.php"><i class="bi bi-people-fill"></i> Info Data Siswa</a>
-                    <a href="data_admin.php"><i class="bi bi-person-vcard"></i> Info Data Admin</a>
-                    <a href="data_operator.php"><i class="bi bi-person-badge"></i> Info Data Operator</a>
-                </div>
-            </div>
+        <a href="profil.php"><i class="bi bi-person-circle"></i> Profil</a>
+        <?php if ($_SESSION['level'] === 'operator'): ?>
+            <a href="pengaduan_admin.php"><i class="bi bi-person-vcard"></i> pengaduan</a>
         <?php endif; ?>
+        <a href="tanggapan.php"><i class="bi bi-clock-history"></i> Tanggapan</a>
+        <a href="isi_laporan.php"><i class="bi bi-file-earmark-text"></i> Laporan</a>
+        <div class="dropdown">
+            <a href="javascript:void(0)"><i class="bi bi-info-circle"></i> Info Data ▼</a>
+            <div class="dropdown-content">
+                <a href="data_siswa.php"><i class="bi bi-people-fill"></i> Info Data Siswa</a>
+                <?php if ($_SESSION['level'] === 'admin'): ?>
+                    <a href="data_admin.php"><i class="bi bi-person-vcard"></i> Info Data Admin</a>
+                <?php endif; ?>
+                <a href="data_operator.php"><i class="bi bi-person-badge"></i> Info Data Operator</a>
+                <a href="info_pengaduan.php"><i class="bi bi-exclamation-diamond"></i> Info Pengaduan</a>
+                <a href="info_tanggapan.php"><i class="bi bi-clock-history"></i> Info Tanggapan</a>
+            </div>
+        </div>
         <div class="welcome">
             <span>Selamat Datang, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong> (<?php echo ucfirst($_SESSION['level']); ?>)</span>
             <a href="logout.php">Logout</a>

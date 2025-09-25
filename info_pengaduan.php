@@ -158,6 +158,38 @@ if (!$result) {
             transform: translateY(-2px);
         }
 
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #003366;
+            min-width: 200px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            z-index: 1001;
+            margin-top: 8px;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #005a9e;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
         .welcome {
             display: flex;
             align-items: center;
@@ -495,15 +527,28 @@ if (!$result) {
 
     <!-- Navbar -->
     <div class="navbar">
-        <a href="index_siswa.php"><i class="bi bi-house-fill"></i> Home</a>
+        <?php
+        $home_link = (isset($_SESSION['level']) && $_SESSION['level'] === 'admin') ? 'index_admin.php' : 'index_operator.php';
+        ?>
+        <a href="<?php echo $home_link; ?>"><i class="bi bi-house-fill"></i> Home</a>
         <a href="profil.php"><i class="bi bi-person-circle"></i> Profil</a>
-        <a href="gallery.php"><i class="bi bi-image"></i> Gallery</a>
-        <a href="pengaduan.php"><i class="bi bi-exclamation-diamond"></i> Pengaduan</a>
-        <a href="history.php"><i class="bi bi-clock-history"></i> History</a>
-        <a href="contact.php"><i class="bi bi-person-circle"></i> Kontak</a>
+        <a href="tanggapan.php"><i class="bi bi-clock-history"></i> Tanggapan</a>
+        <a href="isi_laporan.php"><i class="bi bi-file-earmark-text"></i> Laporan</a>
+        <div class="dropdown">
+            <a href="javascript:void(0)"><i class="bi bi-info-circle"></i> Info Data ▼</a>
+            <div class="dropdown-content">
+                <a href="data_siswa.php"><i class="bi bi-people-fill"></i> Info Data Siswa</a>
+                <a href="data_operator.php"><i class="bi bi-person-badge"></i> Info Data Operator</a>
+                <?php if ($_SESSION['level'] === 'admin'): ?>
+                    <a href="data_admin.php"><i class="bi bi-person-vcard"></i> Info Data Admin</a>
+                <?php endif; ?>
+                <a href="info_pengaduan.php"><i class="bi bi-exclamation-diamond"></i> Info Pengaduan</a>
+                <a href="info_tanggapan.php"><i class="bi bi-clock-history"></i> Info Tanggapan</a>
+            </div>
+        </div>
         <div class="welcome">
-            <span>Selamat Datang, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></span>
-            <a href="dashboard.php">Logout</a>
+            <span>Selamat Datang, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong> (<?php echo ucfirst($_SESSION['level']); ?>)</span>
+            <a href="logout.php">Logout</a>
         </div>
     </div>
 
@@ -536,7 +581,7 @@ if (!$result) {
             <!-- Konten Utama -->
             <div class="page-content">
                 <div class="histori-container">
-                    <h2>HISTORI PENGADUAN</h2>
+                    <h2>INFO PENGADUAN</h2>
 
                     <!-- Form Pencarian -->
                     <form class="search-form" method="GET" action="">
